@@ -1,6 +1,7 @@
 // 1. 导入app
 import { app } from "./app"
 import { SERVER_PORT } from "./config/server"
+import "./utils/handle-error"
 
 // 2. 将app启动起来
 app.listen(SERVER_PORT, () => {
