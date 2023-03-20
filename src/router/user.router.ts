@@ -6,7 +6,7 @@ import userController from "../controller/user.controller"
 const userRouter = new KoaRouter({ prefix: "/users" })
 
 // 2. 定义路由中映射
-userRouter.get("/", userController.create)
+userRouter.post("/", userController.create)
 
 // 3. 导出路由
 export { userRouter }
