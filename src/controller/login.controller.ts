@@ -2,7 +2,8 @@ import Koa from "koa"
 import { IUser } from "../service/types"
 import { ICostumLoginCtx } from "../types/login"
 import jwt from "jsonwebtoken"
-import { PRIVATE_KEY } from "../config/secret"
+import { PRIVATE_KEY, PUBLIC_KEY } from "../config/secret"
+import { UNAUTHORIZATION } from "../config/error"
 
 class LoginController {
   sign(ctx: ICostumLoginCtx, next: Koa.Next) {
@@ -22,6 +23,7 @@ class LoginController {
       }
     }
   }
+  test(ctx: Koa.ExtendableContext, next: Koa.Next) {}
 }
 
 export default new LoginController()

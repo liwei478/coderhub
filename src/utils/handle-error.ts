@@ -1,5 +1,5 @@
 import { app } from "../app"
-import { NAME_IS_ALREADY_EXISTS, NAME_IS_NOT_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, PASSWORD_IS_INCORRECT } from "../config/error"
+import { NAME_IS_ALREADY_EXISTS, NAME_IS_NOT_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, PASSWORD_IS_INCORRECT, UNAUTHORIZATION } from "../config/error"
 
 app.on("error", (error, ctx) => {
   let code = 0
@@ -21,6 +21,10 @@ app.on("error", (error, ctx) => {
     case PASSWORD_IS_INCORRECT:
       code = -1004
       message = "密码输入错误, 请检查密码~"
+      break
+    case UNAUTHORIZATION:
+      code = -1005
+      message = "无效的token或者token已经过期~"
       break
   }
 

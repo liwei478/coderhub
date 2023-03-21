@@ -1,5 +1,7 @@
 import Koa from "koa"
-import { NAME_IS_NOT_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, PASSWORD_IS_INCORRECT } from "../config/error"
+import jwt from "jsonwebtoken"
+import { NAME_IS_NOT_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, PASSWORD_IS_INCORRECT, UNAUTHORIZATION } from "../config/error"
+import { PUBLIC_KEY } from "../config/secret"
 import { IUser } from "../service/types"
 import userService from "../service/user.service"
 import { ICostumLoginCtx } from "../types/login"
@@ -29,5 +31,22 @@ export const verifyLogin = async (ctx: ICostumLoginCtx, next: Koa.Next) => {
   ctx.user = user
 
   // 验证成功, 执行下一个中间件
+  await next()
+}
+
+export const verifyAuth = async (ctx: Koa.ExtendableContext, next: Koa.Next) => {
+  // 1. 获取token
+  const authorization = ctx.headers.authorization
+  const token = authorization?.replace("Bearer ", "")
+
+  // 2. 验证token是否有效
+  try {
+    const result = jwt.verify(token!, PUBLIC_KEY, {
+      algorithms: ["RS256"]
+    })
+    ctx.body = `可以login/test接口~`
+  } catch (error) {
+    ctx.app.emit("error", UNAUTHORIZATION, ctx)
+  }
   await next()
 }
