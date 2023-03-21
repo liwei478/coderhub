@@ -1,5 +1,6 @@
 import Koa from "koa"
 import bodyParser from "koa-bodyparser"
+import { loginRouter } from "../router/login.router"
 import { userRouter } from "../router/user.router"
 
 // 1. 创建app
@@ -9,6 +10,8 @@ const app = new Koa()
 app.use(bodyParser())
 app.use(userRouter.routes())
 app.use(userRouter.allowedMethods())
+app.use(loginRouter.routes())
+app.use(loginRouter.allowedMethods())
 
 // 3. 导出app
 export { app }
