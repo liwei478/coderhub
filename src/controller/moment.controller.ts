@@ -30,6 +30,19 @@ class MomentController {
       data: result
     }
   }
+  async detail(ctx: ICostumLoginCtx, next: Koa.Next) {
+    // 1. 获取动态的id
+    const { momentId } = (ctx as any).params
+
+    // 2. 根据id查询动态详情
+    const result = await momentService.queryById(momentId)
+
+    // 返回数据
+    ctx.body = {
+      code: 0,
+      data: result[0]
+    }
+  }
 }
 
 export default new MomentController()
