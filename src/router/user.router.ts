@@ -9,4 +9,5 @@ const userRouter = new KoaRouter({ prefix: "/users" })
 userRouter.post("/", verifyUser, handlePassword, userController.create)
 
 // 3. 导出路由
-export { userRouter }
+// export { userRouter }
+module.exports = userRouter
