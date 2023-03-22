@@ -20,6 +20,16 @@ class MomentController {
       data: result
     }
   }
+  async list(ctx: ICostumLoginCtx, next: Koa.Next) {
+    // 从数据库动态获取列表
+    const result = await momentService.queryList()
+
+    // 返回数据
+    ctx.body = {
+      code: 0,
+      data: result
+    }
+  }
 }
 
 export default new MomentController()
