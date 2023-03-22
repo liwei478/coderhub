@@ -34,9 +34,12 @@ export const verifyLogin = async (ctx: ICostumLoginCtx, next: Koa.Next) => {
   await next()
 }
 
-export const verifyAuth = async (ctx: Koa.ExtendableContext, next: Koa.Next) => {
+export const verifyAuth = async (ctx: ICostumLoginCtx, next: Koa.Next) => {
   // 1. 获取token
   const authorization = ctx.headers.authorization
+  if (!authorization) {
+    return ctx.app.emit("error", UNAUTHORIZATION, ctx)
+  }
   const token = authorization?.replace("Bearer ", "")
 
   // 2. 验证token是否有效
@@ -44,9 +47,12 @@ export const verifyAuth = async (ctx: Koa.ExtendableContext, next: Koa.Next) => 
     const result = jwt.verify(token!, PUBLIC_KEY, {
       algorithms: ["RS256"]
     })
-    ctx.body = `可以login/test接口~`
+
+    // 2. 将 token 的信息保留下来
+    ctx.user = result as any
+
+    await next()
   } catch (error) {
     ctx.app.emit("error", UNAUTHORIZATION, ctx)
   }
-  await next()
 }
