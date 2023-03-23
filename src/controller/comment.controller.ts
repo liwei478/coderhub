@@ -18,6 +18,20 @@ class CommentController {
       data: result
     }
   }
+  async reply(ctx: ICostumLoginCtx, next: Koa.Next) {
+    // 1. 获取body中参数
+    const { content, momentId, commentId } = ctx.request.body as ICommentParams
+    const { id } = ctx.user
+
+    // 2. 操作数据库, 将数据进行存储
+    const result = await commentService.reply(content, momentId, commentId, id as number)
+
+    ctx.body = {
+      code: 0,
+      message: "回复评论成功~",
+      data: result
+    }
+  }
 }
 
 export default new CommentController()
