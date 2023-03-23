@@ -1,5 +1,5 @@
 import { app } from "../app"
-import { NAME_IS_ALREADY_EXISTS, NAME_IS_NOT_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, PASSWORD_IS_INCORRECT, UNAUTHORIZATION } from "../config/error"
+import { NAME_IS_ALREADY_EXISTS, NAME_IS_NOT_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, OPERATION_IS_NOT_ALLOWED, PASSWORD_IS_INCORRECT, UNAUTHORIZATION } from "../config/error"
 
 app.on("error", (error, ctx) => {
   let code = 0
@@ -25,6 +25,10 @@ app.on("error", (error, ctx) => {
     case UNAUTHORIZATION:
       code = -1005
       message = "无效的token或者token已经过期~"
+      break
+    case OPERATION_IS_NOT_ALLOWED:
+      code = -2001
+      message = "没有操作该资源的权限~"
       break
   }
 

@@ -18,7 +18,6 @@ class MomentService {
     return result
   }
   async queryById(id: number) {
-    // 格式必须是下面这种,否则会报错500
     const statement = `SELECT 
       m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
       JSON_OBJECT('id', u.id, 'name', u.name, 'createTime', u.createAt, 'updateTime', u.updateAt) user
@@ -26,6 +25,11 @@ class MomentService {
     LEFT JOIN user u ON u.id = m.user_id
     WHERE m.id = ?;`
     const [result] = await connection.execute(statement, [id])
+    return result
+  }
+  async update(content: string, id: number) {
+    const statement = `UPDATE moment SET content = ? WHERE id = ?;`
+    const [result] = await connection.execute(statement, [content, id])
     return result
   }
 }

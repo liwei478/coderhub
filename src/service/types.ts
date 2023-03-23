@@ -5,3 +5,7 @@ export interface IUser {
   createAt?: Date
   updateAt?: Date
 }
+
+export interface IParams {
+  momentId: number
+}
