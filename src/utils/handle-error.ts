@@ -1,5 +1,5 @@
 import { app } from "../app"
-import { NAME_IS_ALREADY_EXISTS, NAME_IS_NOT_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, OPERATION_IS_NOT_ALLOWED, PASSWORD_IS_INCORRECT, UNAUTHORIZATION } from "../config/error"
+import { MOMENT_IS_NOT_EXISTS, NAME_IS_ALREADY_EXISTS, NAME_IS_NOT_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, OPERATION_IS_NOT_ALLOWED, PASSWORD_IS_INCORRECT, UNAUTHORIZATION } from "../config/error"
 
 app.on("error", (error, ctx) => {
   let code = 0
@@ -29,6 +29,10 @@ app.on("error", (error, ctx) => {
     case OPERATION_IS_NOT_ALLOWED:
       code = -2001
       message = "没有操作该资源的权限~"
+      break
+    case MOMENT_IS_NOT_EXISTS:
+      code = -2002
+      message = "不存在该评论~"
       break
   }
 

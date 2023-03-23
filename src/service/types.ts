@@ -6,6 +6,10 @@ export interface IUser {
   updateAt?: Date
 }
 
-export interface IParams {
+export interface IDynamicId {
+  [key: string]: number
+}
+
+export interface IParams extends IDynamicId {
   momentId: number
 }

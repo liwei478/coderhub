@@ -1,6 +1,6 @@
 import MomentController from "../controller/moment.controller"
 import { verifyAuth } from "../middleware/login.middleware"
-import { verifyMomentPermission } from "../middleware/permission.middleware"
+import { verifyPermission } from "../middleware/permission.middleware"
 
 const KoaRouter = require("@koa/router")
 
@@ -13,10 +13,10 @@ momentRouter.post("/", verifyAuth, MomentController.create)
 momentRouter.get("/", MomentController.list)
 momentRouter.get("/:momentId", MomentController.detail)
 // 3. 删: 删除动态
-momentRouter.delete("/:momentId", verifyAuth, verifyMomentPermission, MomentController.remove)
+momentRouter.delete("/:momentId", verifyAuth, verifyPermission, MomentController.remove)
 // 4. 改: 修改动态
 // 验证: 登录的用户才能修改动态
-momentRouter.patch("/:momentId", verifyAuth, verifyMomentPermission, MomentController.update)
+momentRouter.patch("/:momentId", verifyAuth, verifyPermission, MomentController.update)
 
 // export { momentRouter }
 module.exports = momentRouter
