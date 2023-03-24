@@ -2,6 +2,11 @@ import Koa from "koa"
 import labelService from "../service/label.service"
 import { ICustomLabelsReq, ILabelsAddition } from "../types/label"
 
+/**
+ * 传入labels时, 不确定labels是否有name已经存在label表中
+ * 所以需要将labels都保存在label汇总,获取labels的id
+ * 将获取的数据传递给下一个中间件
+ */
 export const verifyLabelExists = async (ctx: ICustomLabelsReq, next: Koa.Next) => {
   // 1. 获取客户端传递过来所有的labels
   const { labels } = ctx.request.body as ILabelsAddition

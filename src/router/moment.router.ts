@@ -1,4 +1,5 @@
 import Koa from "koa"
+import momentController from "../controller/moment.controller"
 import MomentController from "../controller/moment.controller"
 import { verifyLabelExists } from "../middleware/label.middleware"
 import { verifyAuth } from "../middleware/login.middleware"
@@ -31,9 +32,7 @@ momentRouter.patch("/:momentId", verifyAuth, verifyPermission, MomentController.
  *    所有的labels都已经在label表中
  *    动态 6, 和 labels关系,添加到关系中
  */
-momentRouter.post("/:momentId/labels", verifyAuth, verifyPermission, verifyLabelExists, (ctx: Koa.ExtendableContext, next: Koa.Next) => {
-  ctx.body = `给动态添加标签成功`
-})
+momentRouter.post("/:momentId/labels", verifyAuth, verifyPermission, verifyLabelExists, momentController.addLabels)
 
 // export { momentRouter }
 module.exports = momentRouter

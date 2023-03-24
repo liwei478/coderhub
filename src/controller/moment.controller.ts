@@ -1,5 +1,6 @@
 import Koa from "koa"
 import momentService from "../service/moment.service"
+import { ICustomLabelsReq, ILabelNameId } from "../types/label"
 import { ICostumLoginCtx } from "../types/login"
 import { IMomentParams } from "../types/moment"
 
@@ -71,6 +72,38 @@ class MomentController {
       code: 0,
       message: "修改动态成功~",
       data: result
+    }
+  }
+  async addLabels(ctx: ICustomLabelsReq, next: Koa.Next) {
+    // 1. 获取一些参数
+    const labels = ctx.labels
+    const { momentId } = ctx.params
+
+    // 2. 将moment_id和label_id添加到moment_label关系
+    try {
+      for (const label of labels) {
+        // 2.1 判断label_id是否已经和moment_id已经存在该数据
+        const isExists = await momentService.hasLabel(momentId, label.id)
+        if (!isExists) {
+          // 2.2 不存在改moment_id和label_id的关系数据
+          const result = await momentService.addLabel(momentId, label.id)
+        }
+      }
+
+      ctx.body = {
+        code: 0,
+        message: "为动态添加标签成功~"
+      }
+    } catch (error) {
+      ctx.body = {
+        code: -3001,
+        message: "为动态添加标签失败, 请检测数据~"
+      }
+    }
+
+    ctx.body = {
+      labels,
+      momentId
     }
   }
 }
