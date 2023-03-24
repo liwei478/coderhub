@@ -1,4 +1,6 @@
+import Koa from "koa"
 import MomentController from "../controller/moment.controller"
+import { verifyLabelExists } from "../middleware/label.middleware"
 import { verifyAuth } from "../middleware/login.middleware"
 import { verifyPermission } from "../middleware/permission.middleware"
 
@@ -17,6 +19,21 @@ momentRouter.delete("/:momentId", verifyAuth, verifyPermission, MomentController
 // 4. 改: 修改动态
 // 验证: 登录的用户才能修改动态
 momentRouter.patch("/:momentId", verifyAuth, verifyPermission, MomentController.update)
+
+/**
+ * 中间件:
+ * 1. 是否登录
+ * 2. 验证是否有操作这个动态的权限
+ * 3. 额外中间件: 验证label的name是否已经存在于label表中
+ *    如果存在, 那么直接使用即可
+ *    如果没有存在, 那么需要先将label的name添加到label表
+ * 4. 最终步骤:
+ *    所有的labels都已经在label表中
+ *    动态 6, 和 labels关系,添加到关系中
+ */
+momentRouter.post("/:momentId/labels", verifyAuth, verifyPermission, verifyLabelExists, (ctx: Koa.ExtendableContext, next: Koa.Next) => {
+  ctx.body = `给动态添加标签成功`
+})
 
 // export { momentRouter }
 module.exports = momentRouter
