@@ -13,3 +13,7 @@ export interface IDynamicId {
 export interface IParams extends IDynamicId {
   momentId: number
 }
+
+export interface IUserFileParams {
+  userId: number
+}

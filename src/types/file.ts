@@ -1,5 +1,7 @@
+import Koa from "koa"
 import { Multer } from "multer"
 import { RequestHandler } from "express"
+import { IUser, IUserFileParams } from "../service/types"
 
 interface Field {
   name: string
@@ -16,4 +18,14 @@ export interface IMulter extends Multer {
   any(): RequestHandler
 
   none(): RequestHandler
+}
+
+export interface IFileParams {
+  filename: string
+  mimetype: string
+  size: number
+}
+
+export interface ICustomFileReq extends Koa.ExtendableContext {
+  user: IUser
 }
