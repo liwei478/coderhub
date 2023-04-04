@@ -1,12 +1,13 @@
 import mysql from "mysql2"
+import { SERVER_HOST, SERVER_PWD, SERVER_USER } from "../config/server"
 
 // 1. 创建连接池
 const connectionPool = mysql.createPool({
-  host: "localhost",
+  host: SERVER_HOST,
   port: 3306,
   database: "coderhub",
-  user: "root",
-  password: "Foejoe123456.",
+  user: SERVER_USER,
+  password: SERVER_PWD,
   connectionLimit: 5
 })
 
